@@ -62,7 +62,7 @@ __global__ void checkFrustum(int P,
 		return;
 
 	float3 p_view;
-	present[idx] = in_frustum(idx, orig_points, viewmatrix, projmatrix, false, p_view);
+	present[idx] = in_frustum(idx, orig_points, viewmatrix, projmatrix, 0.01f, false, p_view);
 }
 
 // Generates one key/value pair for all Gaussian / tile overlaps. 
@@ -215,6 +215,7 @@ int CudaRasterizer::Rasterizer::forward(
 	const float* cam_pos,
 	const float tan_fovx, float tan_fovy,
 	const bool prefiltered,
+	const float z_threshold,
 	float* out_color,
 	float* out_depth,
 	int* radii)
@@ -269,7 +270,8 @@ int CudaRasterizer::Rasterizer::forward(
 		geomState.conic_opacity,
 		tile_grid,
 		geomState.tiles_touched,
-		prefiltered
+		prefiltered,
+		z_threshold
 	);
 
 	// Compute prefix sum over full list of touched tile counts by Gaussians

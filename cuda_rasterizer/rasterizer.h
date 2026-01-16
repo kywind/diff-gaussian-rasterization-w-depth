@@ -48,6 +48,7 @@ namespace CudaRasterizer
 			const float* cam_pos,
 			const float tan_fovx, float tan_fovy,
 			const bool prefiltered,
+			const float z_threshold,
 			float* out_color,
 			float* out_depth,
 			int* radii = nullptr);
